@@ -17,6 +17,7 @@ namespace BouncingGame
 
         private CCRect _bounds;
 
+        private const float LINE_WIDTH = 5f;
 
         public GameLayer () : base (CCColor4B.Gray)
 		{
@@ -99,7 +100,7 @@ namespace BouncingGame
 		{
 			if (touches.Count > 0)
 			{
-                _line.DrawLine(touches[0].StartLocation, touches[0].Location);
+                _line.DrawLine(touches[0].StartLocation, touches[0].Location, LINE_WIDTH);
 
                 _lastLineStartPoint = new CCPoint(touches[0].Location);
 
@@ -122,7 +123,7 @@ namespace BouncingGame
             {
                 _ball.Position = touches[0].Location;
 
-                _line.DrawLine(_lastLineStartPoint, touches[0].Location);
+                _line.DrawLine(_lastLineStartPoint, touches[0].Location, LINE_WIDTH);
 
                 _lastLineStartPoint = touches[0].Location;
 			}
