@@ -6,18 +6,6 @@ namespace BouncingGame
 {
 	public class GameLayer : CCLayerColor
 	{
-        //CCSprite paddleSprite;
-        //CCSprite ballSprite;
-        //CCLabel scoreLabel;
-
-        //float ballXVelocity;
-        //float ballYVelocity;
-
-        //// How much to modify the ball's y velocity per second:
-        //const float gravity = 140;
-
-        //int score;
-
         private CCDrawNode _targetZone;
         private CCDrawNode _line;
         private CCDrawNode _ball;
@@ -41,28 +29,35 @@ namespace BouncingGame
 			// Use the bounds to layout the positioning of our drawable assets
 			_bounds = VisibleBoundsWorldspace;
 
+            //var background = new CCSprite("background");
+            //AddChild(background);
+
 			_targetZone = new CCDrawNode();
 			_targetZone.Position = new CCPoint(_bounds.MaxX - 100, _bounds.MaxY - 100);
-			_targetZone.DrawRect(new CCPoint(0, 0), 50, CCColor4B.Blue);
+			_targetZone.DrawRect(new CCPoint(0, 0), 50, CCColor4B.Transparent);
 			AddChild(_targetZone);
+
+			var coinSprite = new CCSprite("coin");
+			_targetZone.AddChild(coinSprite);
 
 			_line = new CCDrawNode();
 			AddChild(_line);
 
 			_ball = new CCDrawNode();
 			_ball.Position = new CCPoint(100, 100);
+            _ball.DrawCircle(new CCPoint(0,0), 50, CCColor4B.Transparent);
 			AddChild(_ball);
+
+            var ballSprite = new CCSprite("ball");
+			_ball.AddChild(ballSprite);
+            ballSprite.Scale = 0.15f;
+			_ball.ReorderChild(ballSprite, 2);
 
 			_glow = new CCParticleSun(new CCPoint(0, 0), CCEmitterMode.Radius);
 			_glow.StartColor = new CCColor4F(CCColor3B.Orange);
 			_glow.EndColor = new CCColor4F(CCColor3B.Yellow);
-			_glow.StartRadius = 45;
-			_glow.EndRadius = 50;
-
-			var ballFill = new CCDrawNode();
-			ballFill.DrawSolidCircle(new CCPoint(0, 0), 50, CCColor4B.Red);
-			_ball.AddChild(ballFill);
-			_ball.ReorderChild(ballFill, 2);
+            _glow.StartRadius = _ball.ContentSize.Width * 0.7f;
+            _glow.EndRadius = _ball.ContentSize.Width * 0.8f;
 
 			Schedule(RunGameLogic);
 
@@ -80,9 +75,9 @@ namespace BouncingGame
 
             if(hasReachedTargetZone)
             {
-				_burst = new CCParticleExplosion(new CCPoint(0, 0), CCEmitterMode.Gravity);
+                _burst = new CCParticleExplosion(_targetZone.Position, CCEmitterMode.Gravity);
 				_burst.Speed = 150;
-				_ball.AddChild(_burst);
+				AddChild(_burst);
 
 				Random rnd = new Random();
                 int x = rnd.Next(100, (int)_bounds.MaxX - 100);

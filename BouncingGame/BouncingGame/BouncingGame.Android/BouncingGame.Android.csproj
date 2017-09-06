@@ -88,11 +88,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ItemGroup>
-    <AndroidAsset Include="..\BouncingGame.iOS\Content\paddle.png">
-      <Link>Assets\Content\paddle.png</Link>
-    </AndroidAsset>
-    <AndroidAsset Include="..\BouncingGame.iOS\Content\ball.png">
-      <Link>Assets\Content\ball.png</Link>
-    </AndroidAsset>
+    <AndroidAsset Include="Assets\Content\coin.png" />
+    <AndroidAsset Include="Assets\Content\ball.png" />
+    <AndroidAsset Include="Assets\Content\background.png" />
   </ItemGroup>
 </Project>
