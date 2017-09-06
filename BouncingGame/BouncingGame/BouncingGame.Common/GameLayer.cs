@@ -17,9 +17,9 @@ namespace BouncingGame
 
         private CCRect _bounds;
 
-        private const float LINE_WIDTH = 5f;
+        private const float LINE_WIDTH = 2.5f;
 
-        public GameLayer () : base (CCColor4B.Gray)
+        public GameLayer () : base (CCColor4B.Black)
 		{
 		}
 
@@ -52,14 +52,14 @@ namespace BouncingGame
 
             var ballSprite = new CCSprite("ball");
 			_ball.AddChild(ballSprite);
-            ballSprite.Scale = 0.15f;
+            //ballSprite.Scale = 0.15f;
 			_ball.ReorderChild(ballSprite, 2);
 
 			_glow = new CCParticleSun(new CCPoint(0, 0), CCEmitterMode.Radius);
 			_glow.StartColor = new CCColor4F(CCColor3B.Orange);
 			_glow.EndColor = new CCColor4F(CCColor3B.Yellow);
-            _glow.StartRadius = _ball.ContentSize.Width * 0.7f;
-            _glow.EndRadius = _ball.ContentSize.Width * 0.8f;
+            _glow.StartRadius = _ball.ContentSize.Width * 0.4f;
+            _glow.EndRadius = _ball.ContentSize.Width * 0.5f;
 
 			Schedule(RunGameLogic);
 
@@ -77,22 +77,8 @@ namespace BouncingGame
 
             if(hasReachedTargetZone)
             {
-                _burst = new CCParticleExplosion(_targetZone.Position, CCEmitterMode.Gravity);
-				_burst.Speed = 150;
-				AddChild(_burst);
-
-				Random rnd = new Random();
-                int x = rnd.Next(100, (int)_bounds.MaxX - 100);
-                int y = rnd.Next(100, (int)_bounds.MaxY - 100);
-
-                _targetZone.Position = new CCPoint(x, y);
-
                 hasReachedTargetZone = false;
-
-                RemoveChild(_line);
-
-				_line = new CCDrawNode();
-				AddChild(_line);
+                ReachedTargetZone();
             }
 		}
 
@@ -100,7 +86,7 @@ namespace BouncingGame
 		{
 			if (touches.Count > 0)
 			{
-                _line.DrawLine(touches[0].StartLocation, touches[0].Location, LINE_WIDTH);
+                _line.DrawLine(touches[0].StartLocation, touches[0].Location, LINE_WIDTH, CCColor4B.Yellow, CCLineCap.Round);
 
                 _lastLineStartPoint = new CCPoint(touches[0].Location);
 
@@ -123,10 +109,33 @@ namespace BouncingGame
             {
                 _ball.Position = touches[0].Location;
 
-                _line.DrawLine(_lastLineStartPoint, touches[0].Location, LINE_WIDTH);
+                _line.DrawLine(_lastLineStartPoint, touches[0].Location, LINE_WIDTH, CCColor4B.Yellow, CCLineCap.Round);
 
                 _lastLineStartPoint = touches[0].Location;
+
+                if(_targetZone.BoundingBoxTransformedToParent.ContainsPoint(touches[0].Location))
+                {
+                    ReachedTargetZone();
+                }
 			}
 		}
+
+        private void ReachedTargetZone ()
+        {
+			_burst = new CCParticleExplosion(_targetZone.Position, CCEmitterMode.Gravity);
+			_burst.Speed = 75;
+			AddChild(_burst);
+
+			Random rnd = new Random();
+			int x = rnd.Next(100, (int)_bounds.MaxX - 100);
+			int y = rnd.Next(100, (int)_bounds.MaxY - 100);
+
+			_targetZone.Position = new CCPoint(x, y);
+
+			RemoveChild(_line);
+
+			_line = new CCDrawNode();
+			AddChild(_line);
+        }
 	}
 }

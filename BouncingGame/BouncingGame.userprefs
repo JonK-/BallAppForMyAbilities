@@ -1,9 +1,9 @@
 ﻿<Properties StartupConfiguration="{F86E12A1-1689-43F6-9D03-8C98DFE84E42}|Default">
-  <MonoDevelop.Ide.ItemProperties.BouncingGame.Android PreferredExecutionTarget="Android.FA6940307753" />
+  <MonoDevelop.Ide.ItemProperties.BouncingGame.Android PreferredExecutionTarget="Android.Android_Accelerated_x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="BouncingGame/BouncingGame.Common/GameLayer.cs">
     <Files>
-      <File FileName="BouncingGame/BouncingGame.Android/MainActivity.cs" Line="1" Column="1" />
-      <File FileName="BouncingGame/BouncingGame.Common/GameLayer.cs" Line="1" Column="1" />
+      <File FileName="BouncingGame/BouncingGame.Android/MainActivity.cs" Line="14" Column="31" />
+      <File FileName="BouncingGame/BouncingGame.Common/GameLayer.cs" Line="119" Column="18" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

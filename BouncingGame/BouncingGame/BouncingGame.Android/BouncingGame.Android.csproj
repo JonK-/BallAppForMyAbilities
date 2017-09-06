@@ -29,6 +29,7 @@
     <AndroidLinkMode>None</AndroidLinkMode>
     <ConsolePause>false</ConsolePause>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <AndroidSupportedAbis>armeabi-v7a;x86</AndroidSupportedAbis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -88,8 +89,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ItemGroup>
+    <AndroidAsset Include="Assets\Content\background.png" />
     <AndroidAsset Include="Assets\Content\coin.png" />
     <AndroidAsset Include="Assets\Content\ball.png" />
-    <AndroidAsset Include="Assets\Content\background.png" />
   </ItemGroup>
 </Project>
