@@ -47,6 +47,7 @@ namespace BouncingGame
 			_ball.Position = new CCPoint(100, 100);
             _ball.DrawCircle(new CCPoint(0,0), 50, CCColor4B.Transparent);
 			AddChild(_ball);
+            ReorderChild(_ball, 2);
 
             var ballSprite = new CCSprite("ball");
 			_ball.AddChild(ballSprite);
@@ -86,6 +87,11 @@ namespace BouncingGame
                 _targetZone.Position = new CCPoint(x, y);
 
                 hasReachedTargetZone = false;
+
+                RemoveChild(_line);
+
+				_line = new CCDrawNode();
+				AddChild(_line);
             }
 		}
 
