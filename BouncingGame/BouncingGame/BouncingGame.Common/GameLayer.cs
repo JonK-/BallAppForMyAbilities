@@ -23,6 +23,9 @@ namespace BouncingGame
 
         private CCPoint _lastLineStartPoint;
 
+        private CCParticleSun _glow;
+        private CCParticleExplosion _burst;
+
 
         public GameLayer () : base (CCColor4B.Gray)
 		{
@@ -33,16 +36,16 @@ namespace BouncingGame
             _ball.Position = new CCPoint(100, 100);
             AddChild(_ball);
 
-			var glow = new CCParticleSun(new CCPoint(0, 0), CCEmitterMode.Radius);
-			glow.StartColor = new CCColor4F(CCColor3B.Orange);
-			glow.EndColor = new CCColor4F(CCColor3B.Yellow);
-			glow.StartRadius = 45;
-			glow.EndRadius = 50;
-            _ball.AddChild(glow);
+            _glow = new CCParticleSun(new CCPoint(0, 0), CCEmitterMode.Radius);
+			_glow.StartColor = new CCColor4F(CCColor3B.Orange);
+			_glow.EndColor = new CCColor4F(CCColor3B.Yellow);
+			_glow.StartRadius = 45;
+			_glow.EndRadius = 50;
 
 			var ballFill = new CCDrawNode();
 			ballFill.DrawSolidCircle(new CCPoint(0, 0), 50, CCColor4B.Red);
 			_ball.AddChild(ballFill);
+            _ball.ReorderChild(ballFill, 2);
 
 			Schedule (RunGameLogic);
 		}
@@ -78,6 +81,9 @@ namespace BouncingGame
                 _line.DrawLine(touches[0].StartLocation, touches[0].Location);
 
                 _lastLineStartPoint = new CCPoint(touches[0].Location);
+
+				_ball.AddChild(_glow);
+                _ball.ReorderChild(_glow, 1);
 			}
 		}
 
@@ -85,9 +91,11 @@ namespace BouncingGame
 		{
 			if (touches.Count > 0)
 			{
-                var burst = new CCParticleExplosion(new CCPoint(0,0), CCEmitterMode.Gravity);
-				burst.Speed = 100;
-				_ball.AddChild(burst);
+				_burst = new CCParticleExplosion(new CCPoint(0, 0), CCEmitterMode.Gravity);
+				_burst.Speed = 100;
+				_ball.AddChild(_burst);
+
+                _ball.RemoveChild(_glow);
 			}
 		}
 
